@@ -1,0 +1,9 @@
+/.run/
+.gradle/
+out/
+build/
+__pycache__/
+Headers.kt
+
+*.swp
+.DS_Store
