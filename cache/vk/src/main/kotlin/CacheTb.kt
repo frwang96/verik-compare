@@ -10,7 +10,7 @@ class CacheTb: Module() {
 
     @run fun run_test() {
         reset()
-        repeat(1000) { transact() }
+        repeat(100) { transact() }
         finish()
     }
 
