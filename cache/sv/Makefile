@@ -2,7 +2,7 @@ XVLOG = xvlog
 XELAB = xelab
 XSIM = xsim
 
-SOURCES = CacheTypes.sv Cache.sv CacheTb.sv Mem.sv MemBus.sv Top.sv
+SOURCES = CachePkg.sv Cache.sv CacheTb.sv Mem.sv MemBus.sv Top.sv
 TOP = Top
 
 .PHONY: build run

@@ -1,70 +1,57 @@
 `timescale 1ns / 1ns
 
-module CacheTb (
-    MemBus bp
-);
+import cache_pkg::*;
 
-    logic [7:0] mem [64];
+module CacheTb (MemBus bp);
 
-    initial begin: run_test
+    UbitData mem [1<<ADDR_WIDTH];
+
+    initial begin
         reset();
-        repeat (1000) begin
-            transact();
-        end
+        repeat (1000) transact();
         $finish();
-    end: run_test
+    end
 
     task automatic reset();
-        for (int i = 0; i < 64; i++) begin
-            mem[i] = 8'h00;
+        for (int i = 0; i < 1<<ADDR_WIDTH; i++) begin
+            mem[i] = 0;
         end
         @(bp.cp);
-        bp.cp.rst <= 1'b1;
-        bp.cp.req_op <= pkg::Op_INVALID;
+        bp.cp.rst <= 1;
+        bp.cp.req_op <= Op_INVALID;
         @(bp.cp);
-        bp.cp.rst <= 1'b0;
+        bp.cp.rst <= 0;
     endtask
 
     task automatic transact();
-        repeat (3) begin
-            @(bp.cp);
-        end
-        if ($urandom_range(2 - 1) == 0) begin
-            logic [5:0] addr;
-            logic [7:0] data;
-            addr = 6'($urandom());
-            data = 8'($urandom());
+        repeat (3) @(bp.cp);
+        if ($urandom_range(1) == 0) begin
+            UbitAddr addr = $urandom();
+            UbitData data = $urandom();
             mem[addr] = data;
-            $display($sformatf("tb write addr=0x%h data=0x%h", addr, data));
+            $display("tb write addr=0x%h data=0x%h", addr, data);
             @(bp.cp);
-            bp.cp.req_op <= pkg::Op_WRITE;
+            bp.cp.req_op <= Op_WRITE;
             bp.cp.req_addr <= addr;
             bp.cp.req_data <= data;
             @(bp.cp);
-            bp.cp.req_op <= pkg::Op_INVALID;
+            bp.cp.req_op <= Op_INVALID;
         end
         else begin
-            logic [5:0] addr;
-            logic [7:0] data;
-            logic [7:0] expected;
-            addr = 6'($urandom());
-            $display($sformatf("tb read addr=0x%h", addr));
+            UbitAddr addr = $urandom();
+            UbitData data;
+            UbitData expected;
+            $display("tb read addr=0x%h", addr);
             @(bp.cp);
-            bp.cp.req_op <= pkg::Op_READ;
+            bp.cp.req_op <= Op_READ;
             bp.cp.req_addr <= addr;
             @(bp.cp);
-            bp.cp.req_op <= pkg::Op_INVALID;
-            while (!bp.cp.rsp_vld) begin
-                @(bp.cp);
-            end
+            bp.cp.req_op <= Op_INVALID;
+            while (!bp.cp.rsp_vld) @(bp.cp);
             data = bp.cp.rsp_data;
             expected = mem[addr];
-            if (data == expected) begin
-                $display($sformatf("tb PASS data=0x%h expected=0x%h", data, expected));
-            end
-            else begin
-                $display($sformatf("tb FAIL data=0x%h expected=0x%h", data, expected));
-            end
+            if (data == expected) $display($sformatf("tb PASS data=0x%h expected=0x%h", data, expected));
+            else $display($sformatf("tb FAIL data=0x%h expected=0x%h", data, expected));
         end
     endtask
 
