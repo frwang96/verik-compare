@@ -2,6 +2,9 @@
 .gradle/
 out/
 build/
+target/
+.bsp/
+test_run_dir/
 __pycache__/
 Headers.kt
 
