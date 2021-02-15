@@ -2,6 +2,7 @@
 !*/
 !.gitignore
 
+!root.iml
 !codeStyles/codeStyleConfig.xml
 !codeStyles/Project.xml
 !inspectionProfiles/profiles_settings.xml
