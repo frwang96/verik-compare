@@ -1,6 +1,6 @@
 import MemTypes::*;
 import Mem::*;
-import MemTb::*;
+import CacheTb::*;
 
 (* synthesize *)
 module mkTop(Empty);
@@ -8,21 +8,21 @@ module mkTop(Empty);
     Reg#(Bit#(32)) counter <- mkReg(0);
 
     Mem mem <- mkMem;
-    MemTb memTb <- mkMemTb;
+    CacheTb cacheTb <- mkCacheTb;
 
     rule count;
         counter <= counter + 1;
-        if (counter == 200) $finish;
+        if (counter == 500) $finish;
     endrule
 
-    rule connectMemTbMem;
-        let memReq <- memTb.getReq;
+    rule connectCacheTbMem;
+        let memReq <- cacheTb.getReq;
         mem.req(memReq);
     endrule
 
-    rule connectMemMemTb;
+    rule connectMemCacheTb;
         let rsp <- mem.rsp;
-        memTb.setRsp(rsp);
+        cacheTb.setRsp(rsp);
     endrule
 
 endmodule
