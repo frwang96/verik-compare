@@ -14,6 +14,8 @@ module mkMem(Mem);
     Reg#(Maybe#(DataBit)) rspData <- mkReg(Invalid);
 
     method Action req(MemReq memReq) if (!isValid(rspData));
+        $write("mem received op=", fshow(memReq.op));
+        $write(" addr=0x%h data=0x%h\n", memReq.addr, memReq.data);
         if (memReq.op == Write) begin
             mem.upd(memReq.addr, memReq.data);
         end
