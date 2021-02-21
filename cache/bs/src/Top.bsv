@@ -19,21 +19,21 @@ module mkTop(Empty);
 
     rule connectCacheTbCache;
         let memReq <- cacheTb.getReq;
-        cache.inReq(memReq);
+        cache.reqCache(memReq);
     endrule
 
     rule connectCacheMem;
-        let memReq <- cache.outReq;
+        let memReq <- cache.reqMem;
         mem.req(memReq);
     endrule
 
     rule connectMemCache;
         let rsp <- mem.rsp;
-        cache.inRsp(rsp);
+        cache.rspMem(rsp);
     endrule
 
     rule connectCacheCacheTb;
-        let rsp <- cache.outRsp;
+        let rsp <- cache.rspCache;
         cacheTb.setRsp(rsp);
     endrule
 

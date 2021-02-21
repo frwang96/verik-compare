@@ -1,10 +1,12 @@
 typedef 6 AddrWidth;
 typedef 6 DataWidth;
 typedef 3 TagWidth;
+typedef 3 IndexWidth;
 
 typedef Bit#(AddrWidth) AddrBit;
 typedef Bit#(DataWidth) DataBit;
 typedef Bit#(TagWidth) TagBit;
+typedef Bit#(IndexWidth) IndexBit;
 
 typedef enum {
     Read,
