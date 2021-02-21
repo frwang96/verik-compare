@@ -20,8 +20,8 @@ typedef enum {
 } State deriving (Bits, Eq, FShow);
 
 typedef enum {
-    Invalid,
     Clean,
+    Invalid,
     Dirty
 } Status deriving (Bits, Eq, FShow);
 
