@@ -1,7 +1,7 @@
 // See README.md for license details.
 
-ThisBuild / scalaVersion     := "2.12.12"
-ThisBuild / version          := "0.1.0"
+scalaVersion     := "2.12.12"
+version          := "0.1.0"
 
 lazy val root = (project in file("."))
   .settings(
