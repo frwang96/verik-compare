@@ -2,7 +2,7 @@ BSC = bsc
 SOURCE = Top.bsv
 MODULE = mkTop
 
-.PHONY: all
+.PHONY: all clean
 
 all:
 	rm -rf build
