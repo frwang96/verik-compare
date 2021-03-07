@@ -7,6 +7,7 @@ class Top extends Module {
   val io = IO(new MemBundle)
 
   val mem = Module(new Mem())
+  mem.io.reqOp := io.reqOp
   mem.io.reqAddr := io.reqAddr
   mem.io.reqData := io.reqData
   io.rspValid := mem.io.rspValid
