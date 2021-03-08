@@ -12,8 +12,8 @@ class Mem extends Module {
   val data = Reg(UInt(Const.DATA_WIDTH.W))
   val valid = RegInit(false.B)
 
-  io.rspData := RegNext(data)
-  io.rspValid := RegNext(valid)
+  io.rspData := data
+  io.rspValid := valid
 
   when (io.reqOp =/= Const.op_invalid) {
     printf("mem received op=%d addr=0x%x data=0x%x\n", io.reqOp, io.reqAddr, io.reqData)

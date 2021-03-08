@@ -33,8 +33,6 @@ class CacheTester(dut: Top) extends PeekPokeTester(dut) {
       step(1)
 
       poke(dut.io.reqOp, Const.op_invalid)
-      step(1)
-
       while (peek(dut.io.rspValid) != BigInt(1)) step(1)
       val data = peek(dut.io.rspData)
       val expected = mem(addr)
