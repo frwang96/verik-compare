@@ -11,14 +11,12 @@ class CacheTb: Module() {
 
     @run fun run_test() {
         reset()
-        repeat(100) { transact() }
+        repeat(200) { transact() }
         finish()
     }
 
     @task fun reset() {
-        for (i in range(exp(ADDR_WIDTH))) {
-            mem[i] = u(0)
-        }
+        for (i in range(exp(ADDR_WIDTH))) mem[i] = u(0)
         rst = true
         bp.cp.req_op = Op.INVALID
         wait(bp.cp)

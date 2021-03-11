@@ -3,6 +3,7 @@
 module Top;
 
     logic clk;
+    logic rst;
 
     MemBus cache_bus (.clk (clk));
 
@@ -10,19 +11,26 @@ module Top;
 
     Cache cache (
         .clk   (clk),
+        .rst   (rst),
         .rx_bp (cache_bus.rx_bp),
         .tx_bp (mem_bus.tx_bp)
     );
 
-    Mem mem (.clk (clk), .bp (mem_bus.rx_bp));
+    Mem mem (
+        .clk (clk),
+        .rst (rst),
+        .bp  (mem_bus.rx_bp)
+    );
 
-    CacheTb tb (.bp (cache_bus.tb_bp));
+    CacheTb tb (
+        .rst (rst),
+        .bp  (cache_bus.tb_bp)
+    );
 
     initial begin
         clk = 0;
         forever begin
-            #1;
-            clk = !clk;
+            #1 clk = !clk;
         end
     end
 

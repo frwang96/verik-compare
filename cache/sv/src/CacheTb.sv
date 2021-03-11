@@ -2,25 +2,25 @@
 
 import cache_pkg::*;
 
-module CacheTb (MemBus bp);
+module CacheTb (
+    output logic rst,
+    MemBus bp
+);
 
     UbitData mem [1<<ADDR_WIDTH];
 
     initial begin
         reset();
-        repeat (1000) transact();
+        repeat (200) transact();
         $finish();
     end
 
     task automatic reset();
-        for (int i = 0; i < 1<<ADDR_WIDTH; i++) begin
-            mem[i] = 0;
-        end
-        @(bp.cp);
-        bp.cp.rst <= 1;
+        for (int i = 0; i < 1<<ADDR_WIDTH; i++) mem[i] = 0;
+        rst <= 1;
         bp.cp.req_op <= Op_INVALID;
         @(bp.cp);
-        bp.cp.rst <= 0;
+        rst <= 0;
     endtask
 
     task automatic transact();

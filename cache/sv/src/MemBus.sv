@@ -4,7 +4,6 @@ import cache_pkg::*;
 
 interface MemBus (input logic clk);
 
-    logic    rst;
     Op       req_op;
     UbitAddr req_addr;
     UbitData req_data;
@@ -12,7 +11,6 @@ interface MemBus (input logic clk);
     UbitData rsp_data;
 
     clocking cp @(posedge clk);
-        output rst;
         output req_op;
         output req_addr;
         output req_data;
@@ -23,7 +21,6 @@ interface MemBus (input logic clk);
     modport tb_bp (clocking cp);
 
     modport tx_bp (
-        output rst,
         output req_op,
         output req_addr,
         output req_data,
@@ -32,7 +29,6 @@ interface MemBus (input logic clk);
     );
 
     modport rx_bp (
-        input  rst,
         input  req_op,
         input  req_addr,
         input  req_data,

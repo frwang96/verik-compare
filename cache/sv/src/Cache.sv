@@ -4,6 +4,7 @@ import cache_pkg::*;
 
 module Cache (
     input logic clk,
+    input logic rst,
     MemBus rx_bp,
     MemBus tx_bp
 );
@@ -16,14 +17,10 @@ module Cache (
 
     always_ff @(posedge clk) begin
         rx_bp.rsp_vld <= 0;
-        tx_bp.rst <= 0;
         tx_bp.req_op <= Op_INVALID;
-        if (rx_bp.rst) begin
-            tx_bp.rst <= 1;
+        if (rst) begin
             state <= State_READY;
-            for (int i = 0; i < 1<<INDEX_WIDTH; i++) begin
-                lines[i] <= '{Status_INVALID, 0, 0};
-            end
+            for (int i = 0; i < 1<<INDEX_WIDTH; i++) lines[i] <= '{Status_INVALID, 0, 0};
         end
         else if (state == State_READY) begin
             if (rx_bp.req_op != Op_INVALID) begin
