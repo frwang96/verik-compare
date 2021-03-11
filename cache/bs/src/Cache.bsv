@@ -3,6 +3,7 @@ import RegFile::*;
 import MemTypes::*;
 
 interface Cache;
+    method Action reset();
     method Action reqCache(MemReq memReq);
     method ActionValue#(DataBit) rspCache;
     method ActionValue#(MemReq) reqMem;

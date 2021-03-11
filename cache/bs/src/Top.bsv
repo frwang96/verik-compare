@@ -6,15 +6,16 @@ import CacheTb::*;
 (* synthesize *)
 module mkTop(Empty);
 
-    Reg#(Bit#(32)) counter <- mkReg(0);
-
     Mem mem <- mkMem;
     Cache cache <- mkCache;
     CacheTb cacheTb <- mkCacheTb;
 
-    rule count;
-        counter <= counter + 1;
-        if (counter == 1000) $finish;
+    rule reset;
+        let isReset <- cacheTb.isReset;
+        if (isReset) begin
+            mem.reset;
+            cache.reset;
+        end
     endrule
 
     rule connectCacheTbCache;

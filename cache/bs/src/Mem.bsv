@@ -2,6 +2,7 @@ import MemTypes::*;
 import RegFile::*;
 
 interface Mem;
+    method Action reset();
     method Action req(MemReq memReq);
     method ActionValue#(DataBit) rsp;
 endinterface
