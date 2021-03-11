@@ -16,23 +16,23 @@ class CacheTester(dut: Top) extends PeekPokeTester(dut) {
       val addr = Random.nextInt() & ((1 << Const.ADDR_WIDTH) - 1)
       val data = Random.nextInt() & ((1 << Const.DATA_WIDTH) - 1)
       mem(addr) = data
-      poke(dut.io.reqOp, Const.op_write)
+      poke(dut.io.reqOp, Const.opWrite)
       poke(dut.io.reqAddr, addr)
       poke(dut.io.reqData, data)
       printf("tb write addr=0x%x data=0x%x\n", addr, data)
       step(1)
 
-      poke(dut.io.reqOp, Const.op_invalid)
+      poke(dut.io.reqOp, Const.opInvalid)
       step(1)
     } else {
       // read mem
       val addr = Random.nextInt() & ((1 << Const.ADDR_WIDTH) - 1)
-      poke(dut.io.reqOp, Const.op_read)
+      poke(dut.io.reqOp, Const.opRead)
       poke(dut.io.reqAddr, addr)
       printf("tb read addr=0x%x\n", addr)
       step(1)
 
-      poke(dut.io.reqOp, Const.op_invalid)
+      poke(dut.io.reqOp, Const.opInvalid)
       while (peek(dut.io.rspValid) != BigInt(1)) step(1)
       val data = peek(dut.io.rspData)
       val expected = mem(addr)
@@ -43,6 +43,7 @@ class CacheTester(dut: Top) extends PeekPokeTester(dut) {
         printf("tb FAIL data=0x%x expected=0x%x\n", data, expected)
       }
     }
+    step(3)
   }
 }
 

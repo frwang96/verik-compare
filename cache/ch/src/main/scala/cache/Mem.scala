@@ -18,9 +18,9 @@ class Mem extends Module {
   data := 0.U
   valid := false.B
 
-  when (io.reqOp =/= Const.op_invalid) {
+  when (io.reqOp =/= Const.opInvalid) {
     printf("mem received op=%d addr=0x%x data=0x%x\n", io.reqOp, io.reqAddr, io.reqData)
-    when (io.reqOp === Const.op_write) {
+    when (io.reqOp === Const.opWrite) {
       mem(io.reqAddr) := io.reqData
     } .otherwise {
       data := mem(io.reqAddr)

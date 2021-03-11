@@ -10,14 +10,14 @@ object Const {
   val TAG_WIDTH = 3
   val INDEX_WIDTH = 3
 
-  val op_invalid :: op_read :: op_write :: Nil = Enum(3)
-  val OP_WIDTH = op_invalid.getWidth
+  val opInvalid :: opRead :: opWrite :: Nil = Enum(3)
+  val OP_WIDTH = opInvalid.getWidth
 
-  val state_ready :: state_writeback :: state_fill :: Nil = Enum(3)
-  val STATE_WIDTH = state_ready.getWidth
+  val stateReady :: stateWriteback :: stateFill :: Nil = Enum(3)
+  val STATE_WIDTH = stateReady.getWidth
 
-  val status_invalid :: status_clean :: status_dirty :: Nil = Enum(3)
-  val STATUS_WIDTH = status_invalid.getWidth
+  val statusInvalid :: statusClean :: statusDirty :: Nil = Enum(3)
+  val STATUS_WIDTH = statusInvalid.getWidth
 }
 
 class Line() extends Bundle {
