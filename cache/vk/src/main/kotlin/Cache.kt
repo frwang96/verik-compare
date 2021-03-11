@@ -5,6 +5,7 @@ import verik.data.*
 class Cache: Module() {
 
     @input val clk   = t_Boolean()
+    @input val rst   = t_Boolean()
     @inout val rx_bp = t_MemRxBusPort()
     @inout val tx_bp = t_MemTxBusPort()
 
@@ -19,14 +20,10 @@ class Cache: Module() {
     @seq fun update() {
         on(posedge(clk)) {
             rx_bp.rsp_vld = false
-            tx_bp.rst = false
             tx_bp.req_op = Op.INVALID
-            if (rx_bp.rst) {
-                tx_bp.rst = true
+            if (rst) {
                 state = State.READY
-                for (i in range(exp(INDEX_WIDTH))) {
-                    lines[i] = i_Line(Status.INVALID, u(0), u(0))
-                }
+                for (i in range(exp(INDEX_WIDTH))) lines[i] = i_Line(Status.INVALID, u(0), u(0))
             } else {
                 when (state) {
                     State.READY -> {

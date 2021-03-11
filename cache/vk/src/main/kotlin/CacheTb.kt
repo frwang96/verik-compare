@@ -4,7 +4,8 @@ import verik.data.*
 
 class CacheTb: Module() {
 
-    @inout val bp = t_MemTbBusPort()
+    @output var rst = t_Boolean()
+    @inout  val bp  = t_MemTbBusPort()
 
     val mem = t_Array(exp(ADDR_WIDTH), t_UbitData())
 
@@ -18,11 +19,10 @@ class CacheTb: Module() {
         for (i in range(exp(ADDR_WIDTH))) {
             mem[i] = u(0)
         }
-        wait(bp.cp)
-        bp.cp.rst = true
+        rst = true
         bp.cp.req_op = Op.INVALID
         wait(bp.cp)
-        bp.cp.rst = false
+        rst = false
     }
 
     @task fun transact() {
