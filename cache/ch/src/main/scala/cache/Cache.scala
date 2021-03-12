@@ -78,7 +78,7 @@ class Cache extends Module {
     } .elsewhen (state === State.fill) {
         when (io.tx.rspValid) {
             val tag = getTag(curAddr)
-            val index = getTag(curAddr)
+            val index = getIndex(curAddr)
             printf("cache fill index=0x%x tag=0x%x data=0x%x\n", index, tag, io.tx.rspData)
             lines(index).tag := tag
             when (curOp === Op.write) {

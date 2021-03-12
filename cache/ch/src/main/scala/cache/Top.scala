@@ -11,10 +11,10 @@ class Top extends Module {
   })
 
   val cache = Module(new Cache())
-  cache.io.rst := io.rst
-  cache.io.rx.reqOp := io.rx.reqOp
-  cache.io.rx.reqAddr := io.rx.reqAddr
-  cache.io.rx.reqData := io.rx.reqData
+  cache.io.rst := RegNext(io.rst)
+  cache.io.rx.reqOp := RegNext(io.rx.reqOp)
+  cache.io.rx.reqAddr := RegNext(io.rx.reqAddr)
+  cache.io.rx.reqData := RegNext(io.rx.reqData)
   io.rx.rspValid := cache.io.rx.rspValid
   io.rx.rspData := cache.io.rx.rspData
 
