@@ -6,6 +6,7 @@ import chisel3.util._
 class Cache extends Module {
 
     val io = IO(new Bundle {
+        val rst = Input(Bool())
         val rx = new MemBundle()
         val tx = Flipped(new MemBundle())
     })
@@ -35,7 +36,9 @@ class Cache extends Module {
     reqAddr := 0.U
     reqData := 0.U
 
-    when (state === State.ready) {
+    when (io.rst) {
+        lines.foreach { _.status := Status.invalid }
+    } .elsewhen (state === State.ready) {
         when (io.rx.reqOp =/= Op.invalid) {
             printf("cache received op=%d addr=0x%x data=0x%x\n", io.rx.reqOp, io.rx.reqAddr, io.rx.reqData)
             curOp := io.rx.reqOp
