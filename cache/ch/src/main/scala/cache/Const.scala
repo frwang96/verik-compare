@@ -9,20 +9,28 @@ object Const {
   val DATA_WIDTH = 8
   val TAG_WIDTH = 3
   val INDEX_WIDTH = 3
+}
 
-  val opInvalid :: opRead :: opWrite :: Nil = Enum(3)
-  val OP_WIDTH = opInvalid.getWidth
+object Op {
+  val invalid :: read :: write :: Nil = Enum(3)
+  val WIDTH = invalid.getWidth
+}
 
-  val stateReady :: stateWriteback :: stateFill :: Nil = Enum(3)
-  val STATE_WIDTH = stateReady.getWidth
+object State {
 
-  val statusInvalid :: statusClean :: statusDirty :: Nil = Enum(3)
-  val STATUS_WIDTH = statusInvalid.getWidth
+  val ready :: writeback :: fill :: Nil = Enum(3)
+  val WIDTH = ready.getWidth
+}
+
+object Status {
+
+  val invalid :: clean :: dirty :: Nil = Enum(3)
+  val WIDTH = invalid.getWidth
 }
 
 class Line() extends Bundle {
 
-  val status = UInt(Const.STATUS_WIDTH.W)
+  val status = UInt(Status.WIDTH.W)
   val tag    = UInt(Const.TAG_WIDTH.W)
   val data   = UInt(Const.DATA_WIDTH.W)
 }
