@@ -1,5 +1,5 @@
 import MemTypes::*;
-import RegFile::*;
+import Vector::*;
 
 interface Mem;
     method Action reset();
@@ -10,18 +10,23 @@ endinterface
 (* synthesize *)
 module mkMem(Mem);
 
-    RegFile#(AddrBit, DataBit) mem <- mkRegFile('0, '1);
+    Vector#(TExp#(AddrWidth), Reg#(DataBit)) mem <- replicateM(mkRegU);
 
     Reg#(Maybe#(DataBit)) rspData <- mkReg(Invalid);
+
+    method Action reset;
+        for (Integer i = 0; i < valueOf(TExp#(AddrWidth)); i = i+1)
+            mem[i] <= 0;
+    endmethod
 
     method Action req(MemReq memReq) if (!isValid(rspData));
         $write("mem received op=", fshow(memReq.op));
         $write(" addr=0x%h data=0x%h\n", memReq.addr, memReq.data);
         if (memReq.op == Write) begin
-            mem.upd(memReq.addr, memReq.data);
+            mem[memReq.addr] <= memReq.data;
         end
         else if (memReq.op == Read) begin
-            rspData <= Valid(mem.sub(memReq.addr));
+            rspData <= Valid(mem[memReq.addr]);
         end
     endmethod
 

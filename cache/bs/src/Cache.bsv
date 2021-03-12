@@ -1,9 +1,9 @@
 import FIFOF::*;
-import RegFile::*;
+import Vector::*;
 import MemTypes::*;
 
 interface Cache;
-    method Action reset();
+    method Action reset;
     method Action reqCache(MemReq memReq);
     method ActionValue#(DataBit) rspCache;
     method ActionValue#(MemReq) reqMem;
@@ -21,7 +21,7 @@ module mkCache(Cache);
     FIFOF#(DataBit) rspQ <- mkSizedFIFOF(1);
     FIFOF#(DataBit) hitQ <- mkSizedFIFOF(1);
 
-    RegFile#(IndexBit, Line) lines <- mkRegFile('0, '1);
+    Vector#(TExp#(IndexWidth), Reg#(Line)) lines <- replicateM(mkRegU);
 
     function IndexBit getIndex(AddrBit addr);
         return truncate(addr);
@@ -43,21 +43,26 @@ module mkCache(Cache);
         TagBit tag = getTag(curMemReq.addr);
         $display("cache fill index=0x%h tag=0x%h data=0x%h", index, tag, data);
         if (curMemReq.op == Read) begin
-            lines.upd(index, Line{status: Clean, tag: tag, data: data});
+            lines[index] <= Line{status: Clean, tag: tag, data: data};
             hitQ.enq(data);
         end
         else begin
-            lines.upd(index, Line{status: Dirty, tag: tag, data: curMemReq.data});
+            lines[index] <= Line{status: Dirty, tag: tag, data: curMemReq.data};
         end
         state <= Ready;
     endrule
+
+    method Action reset;
+        for (Integer i = 0; i < valueOf(TExp#(IndexWidth)); i = i+1)
+            lines[i] <= Line{status: Invalid, tag: ?, data: ?};
+    endmethod
 
     method Action reqCache(MemReq memReq) if (state == Ready && hitQ.notFull);
         $write("cache received op=", fshow(memReq.op));
         $write(" addr=0x%h data=0x%h\n", memReq.addr, memReq.data);
         IndexBit index = getIndex(memReq.addr);
         TagBit tag = getTag(memReq.addr);
-        Line line = lines.sub(index);
+        Line line = lines[index];
         curMemReq <= memReq;
         if (line.status != Invalid && line.tag == tag) begin
             $write("cache hit index=0x%h tag=0x%h line.tag=0x%h", index, tag, line.tag);
@@ -67,7 +72,7 @@ module mkCache(Cache);
                 hitQ.enq(line.data);
             end
             else begin
-                lines.upd(index, Line{status: Dirty, tag: tag, data: memReq.data});
+                lines[index] <= Line{status: Dirty, tag: tag, data: memReq.data};
             end
         end
         else begin

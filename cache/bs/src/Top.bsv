@@ -10,12 +10,9 @@ module mkTop(Empty);
     Cache cache <- mkCache;
     CacheTb cacheTb <- mkCacheTb;
 
-    rule reset;
-        let isReset <- cacheTb.isReset;
-        if (isReset) begin
-            mem.reset;
-            cache.reset;
-        end
+    rule reset if (cacheTb.isReset);
+        mem.reset;
+        cache.reset;
     endrule
 
     rule connectCacheTbCache;
