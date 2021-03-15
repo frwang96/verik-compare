@@ -9,7 +9,7 @@ class CacheTb: Module() {
 
     val mem = t_Array(exp(ADDR_WIDTH), t_UbitData())
 
-    @run fun run_test() {
+    @run fun test() {
         reset()
         repeat(200) { transact() }
         finish()
