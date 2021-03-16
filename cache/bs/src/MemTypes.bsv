@@ -1,5 +1,5 @@
 typedef 6 AddrWidth;
-typedef 6 DataWidth;
+typedef 8 DataWidth;
 typedef 3 TagWidth;
 typedef 3 IndexWidth;
 
