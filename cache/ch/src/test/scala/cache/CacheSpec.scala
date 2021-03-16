@@ -15,12 +15,13 @@ class CacheTester(dut: Top) extends PeekPokeTester(dut) {
   step(1)
   poke(dut.io.rst,0)
 
+  Random.setSeed(0)
   for (_ <- 0 until 200) {
     step(3)
     if (Random.nextBoolean()) {
       // write mem
-      val addr = Random.nextInt() & ((1 << Const.ADDR_WIDTH) - 1)
-      val data = Random.nextInt() & ((1 << Const.DATA_WIDTH) - 1)
+      val addr = Random.nextInt(1 << Const.ADDR_WIDTH)
+      val data = Random.nextInt(1 << Const.DATA_WIDTH)
       mem(addr) = data
       poke(dut.io.rx.reqOp, Op.write)
       poke(dut.io.rx.reqAddr, addr)
@@ -32,7 +33,7 @@ class CacheTester(dut: Top) extends PeekPokeTester(dut) {
       step(1)
     } else {
       // read mem
-      val addr = Random.nextInt() & ((1 << Const.ADDR_WIDTH) - 1)
+      val addr = Random.nextInt(1 << Const.ADDR_WIDTH)
       poke(dut.io.rx.reqOp, Op.read)
       poke(dut.io.rx.reqAddr, addr)
       printf("tb read addr=0x%x\n", addr)

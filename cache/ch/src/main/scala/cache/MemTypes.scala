@@ -12,6 +12,7 @@ object Const {
 }
 
 object Op {
+
   val invalid :: read :: write :: Nil = Enum(3)
   val WIDTH = invalid.getWidth
 }
