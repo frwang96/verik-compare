@@ -1,8 +1,8 @@
 `timescale 1ns / 1ns
 
+module CacheTb
 import cache_pkg::*;
-
-module CacheTb (
+(
     output logic rst,
     MemBus bp
 );

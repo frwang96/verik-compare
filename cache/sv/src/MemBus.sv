@@ -1,8 +1,8 @@
 `timescale 1ns / 1ns
 
+interface MemBus
 import cache_pkg::*;
-
-interface MemBus (input logic clk);
+(input logic clk);
 
     Op       req_op;
     UbitAddr req_addr;

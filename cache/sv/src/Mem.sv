@@ -1,8 +1,8 @@
 `timescale 1ns / 1ns
 
+module Mem
 import cache_pkg::*;
-
-module Mem (
+(
     input logic clk,
     input logic rst,
     MemBus bp

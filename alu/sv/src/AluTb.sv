@@ -1,10 +1,12 @@
 `timescale 1ns / 1ns
 
-module AluTb (
-    output alu_pkg::Op op,
-    output logic [7:0] a,
-    output logic [7:0] b,
-    input  logic [7:0] x
+module AluTb
+import alu_pkg::*;
+(
+    output Op op,
+    output UbitData a,
+    output UbitData b,
+    input  UbitData x
 );
 
     initial begin
@@ -12,21 +14,21 @@ module AluTb (
     end
 
     task automatic transact();
-        logic [7:0] expected;
+        UbitData expected;
         a = $urandom();
         b = $urandom();
-        op = alu_pkg::Op'($urandom_range(alu_pkg::Op.num() - 1));
+        op = Op'($urandom_range(Op.num() - 1));
         case (op)
-            alu_pkg::ADD: expected = a + b;
-            alu_pkg::SUB: expected = a - b;
-            alu_pkg::AND: expected = a & b;
-            alu_pkg::OR: expected = a | b;
-            alu_pkg::XOR: expected = a ^ b;
-            alu_pkg::SLT: expected = signed'(a) < signed'(b);
-            alu_pkg::SLTU: expected = a < b;
-            alu_pkg::SLL: expected = a << b;
-            alu_pkg::SRL: expected = a >> b;
-            alu_pkg::SRA: expected = a >>> b;
+            ADD: expected = a + b;
+            SUB: expected = a - b;
+            AND: expected = a & b;
+            OR: expected = a | b;
+            XOR: expected = a ^ b;
+            SLT: expected = signed'(a) < signed'(b);
+            SLTU: expected = a < b;
+            SLL: expected = a << b;
+            SRL: expected = a >> b;
+            SRA: expected = a >>> b;
         endcase
 
         #1;
