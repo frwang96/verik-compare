@@ -9,19 +9,17 @@ class Alu: Module() {
     @output var x   = t_UbitData()
 
     @com fun update() {
-        @Suppress("LiftReturnOrAssignment")
-        // TODO support exhaustive case assignment
-        when (op) {
-            Op.ADD -> x = a + b
-            Op.SUB -> x = a - b
-            Op.AND -> x = a and b
-            Op.OR -> x = a or b
-            Op.XOR -> x = a xor b
-            Op.SLT -> x = if (s(a) < s(b)) u(DATA_WIDTH, 1) else u(DATA_WIDTH, 0)
-            Op.SLTU -> x = if (a < b) u(DATA_WIDTH, 1) else u(DATA_WIDTH, 0)
-            Op.SLL -> x = a shl b
-            Op.SRL -> x = a shr b
-            Op.SRA -> x = u(s(a) shr b)
+        x = when (op) {
+            Op.ADD -> a + b
+            Op.SUB -> a - b
+            Op.AND -> a and b
+            Op.OR -> a or b
+            Op.XOR -> a xor b
+            Op.SLT -> if (s(a) < s(b)) u(1) else u(0)
+            Op.SLTU -> if (a < b) u(1) else u(0)
+            Op.SLL -> a shl b
+            Op.SRL -> a shr b
+            Op.SRA -> u(s(a) shr b)
         }
     }
 }
