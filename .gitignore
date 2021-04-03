@@ -8,6 +8,8 @@ test_run_dir/
 __pycache__/
 Headers.kt
 build.properties
+*.iml
+!root.iml
 
 *.swp
 .DS_Store
