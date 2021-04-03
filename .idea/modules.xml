@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/alu/vk/alu-vk.iml" filepath="$PROJECT_DIR$/alu/vk/alu-vk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cache/vk/cache-vk.iml" filepath="$PROJECT_DIR$/cache/vk/cache-vk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/root.iml" filepath="$PROJECT_DIR$/root.iml" />
+    </modules>
+  </component>
+</project>
