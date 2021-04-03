@@ -2,12 +2,15 @@
 .gradle/
 out/
 build/
-target/
-.bsp/
-test_run_dir/
-__pycache__/
 Headers.kt
-build.properties
+
+.bsp/
+project/
+target/
+test_run_dir/
+
+.idea/
+!/.idea
 *.iml
 !root.iml
 
